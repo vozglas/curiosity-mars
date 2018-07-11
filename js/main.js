@@ -109,7 +109,7 @@ updatePhotoList = (data) => {
         a.addEventListener('click', (event) => {
             event.preventDefault();
             const lastFocusedElement = document.activeElement;
-            showPhotoDetails(data[0], lastFocusedElement)
+            showPhotoDetails(photo, lastFocusedElement)
         }, this);
         a.appendChild(img);
         li.appendChild(a);
