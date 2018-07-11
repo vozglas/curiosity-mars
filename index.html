@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Curiosity Mars Photos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1><a href="/" aria-label="Home page">Curiosity Mars Photos</a></h1>
+    </header>
+    <main id="maincontent" role="main">
+            <div>
+                <div class="filter">
+                    <label for="input-date-search">Select date</label>
+                    <input type="date" id="input-date-search">
+                </div>
+                <section id="search-results">
+                     <h2 id="photos-caption"></h2>
+                    <div id="total-photos"></div>
+                    <ul id="photos-list"></ul>
+                </section>
+                <section id="photo-detail">
+
+                </section>
+
+            </div>
+    </main>
+    <footer>
+        <address>
+            API provided by <a href="https://github.com/chrisccerami/mars-photo-api" target="_blank">Chris Cerami</a>.
+        </address>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

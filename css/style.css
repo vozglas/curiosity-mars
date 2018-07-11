@@ -1,0 +1,136 @@
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    /* height: 100%; */ 
+}
+
+body {
+    margin: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+
+h1, h2, h3 {
+    margin: 0;
+    padding: 20px 0;
+}
+
+header, footer {
+    width: 100%;
+    background-color: black;
+    color: #fdfdfd;
+    max-width: 1000px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+}
+
+header h1 {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 200;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+header h1 a {
+    color: #fff;
+}
+
+footer {
+    padding: 20px 0;
+}
+
+#maincontent {
+    width: 100%;
+    position: relative;
+    max-width: 1000px;
+    margin: auto;
+    background-color: #e9e9e9;
+    height: 100%;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+.filter {
+    padding: 10px 20px;
+    background-color: #ccc;
+    text-align: right;
+    color: #000;
+}
+
+#photos-list {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: auto;
+    padding: 0;
+    
+}
+
+#photos-list li {
+    max-width: 200px;
+    margin: 10px;
+    border: 1px solid #333;
+    padding: 10px;
+}
+
+#photos-caption {
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 200;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+#total-photos {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 200;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+#photo-detail{
+    display: none;
+}
+
+
+address {
+    text-align: right;
+    padding: 10px;
+}
+address a {
+    color: #fff;
+}
+
+@media screen and (max-width: 750px) {
+    #photos-list li {
+        max-width: 250px;
+    }
+}
+@media screen and (max-width: 600px) {
+    #photos-list {
+        justify-content: center;
+    }
+    #photos-list li {
+        max-width: 400px;
+    }
+}
+@media screen and (max-width: 400px) {
+    header h1, #photos-caption {
+        font-size: 18px;
+    }
+}
