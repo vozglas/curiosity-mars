@@ -107,7 +107,7 @@ img {
     display: none;
     position: fixed;
     z-index: 1; 
-    padding-top: 10vh; 
+    padding-top: 3vh; 
     left: 0;
     top: 0;
     width: 100%; 
@@ -115,20 +115,37 @@ img {
     overflow: auto; 
     background-color: rgba(0,0,0,0.4);
     will-change: transform; /* make a new layer*/
+    text-align: center;
 }
+
 #photo-detail {
+    text-align: center;
     position: relative;
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #888;
-    width: 80vw;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    display: inline-block;
+}
+
+#photo-detail img {
+    max-height: 80vh;
+    max-width: 80vw;
 }
 
 #btn-close-modal {
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 50%;
+    position: absolute;
+    right:0;
+    top: 0;
+    font-weight: bold;
+    color: #fefefe;
+    background-color: rgb(39, 39, 39);
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
 }
 
 #btn-close-modal:hover, #btn-close-modal:focus {

@@ -70,7 +70,6 @@ fetchLatestPhotos = () => {
     return fetch(`${BASE_URL}rovers/curiosity/latest_photos`).then(response => {
         return response.json();
     }).then(data => {
-        console.log(data.latest_photos);
         return data.latest_photos;
     }).catch(error => {
         console.log(error);
@@ -81,7 +80,6 @@ fetchPhotosByEarthDate = (date) => {
     return fetch(`${BASE_URL}rovers/curiosity/photos?earth_date=${date}`).then(response => {
         return response.json();
     }).then(data => {
-        console.log(data.photos);
         return data.photos;
     }).catch(error => {
         console.log(error);
@@ -104,20 +102,15 @@ updatePhotoList = (data) => {
         const li = document.createElement('li');
         const img = document.createElement('img');
         img.setAttribute('src', photo.img_src);
-        img.setAttribute('alt', `Photo made by ${photo.rover.name} with ${photo.camera.full_name} on ${photo.earth_date}`);
+        img.setAttribute('alt', `The photo was made by ${photo.rover.name} with ${photo.camera.full_name} on ${photo.earth_date}`);
         const a = document.createElement('a');
         a.setAttribute('props', JSON.stringify(photo));
         a.href = '/';
         a.addEventListener('click', (event) => {
             event.preventDefault();
-            const elem = (event.path[1]);
-
-            const data = JSON.parse(elem.getAttribute('props'));
             const lastFocusedElement = document.activeElement;
-            
-            showPhotoDetails(data, lastFocusedElement)
-            console.log(JSON.parse(elem.getAttribute('props')));
-        });
+            showPhotoDetails(data[0], lastFocusedElement)
+        }, this);
         a.appendChild(img);
         li.appendChild(a);
         photoList.appendChild(li);
@@ -136,8 +129,28 @@ showPhotoDetails = (data, lastFocusedElement) => {
     focusOnExit = lastFocusedElement;
     modal = document.getElementById('photo-detail-back');
     modal.style.display = "block";
+    let modalContentElement = document.getElementById("photo-detail");
+    
+    const detailPhotoWrapper = document.createElement("div");
+    const modalContentImg = document.createElement("img");
+    modalContentImg.setAttribute('src', `${data.img_src}`);
+    const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date}`
+    modalContentImg.setAttribute('alt',  picDescr);
+    detailPhotoWrapper.appendChild(modalContentImg);
 
-    document.getElementById("btn-close-modal").addEventListener("click", closeModal);
+    const detailDescrWrapper = document.createElement("div");
+    detailDescrWrapper.innerHTML = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date}`;
+
+
+    modalContentElement.appendChild(detailPhotoWrapper);
+    modalContentElement.appendChild(detailDescrWrapper);
+
+   
+    const btnCloseModal = document.createElement('button');
+    btnCloseModal.setAttribute('id', 'btn-close-modal');
+    btnCloseModal.innerHTML = "X";
+    modalContentElement.appendChild(btnCloseModal);
+    btnCloseModal.addEventListener("click", closeModal);
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = event => {
@@ -185,5 +198,6 @@ trapTabKey = (e) => {
 
 closeModal = () => {
     modal.style.display = "none";
+    document.getElementById("photo-detail").innerHTML = "";
     focusOnExit.focus();
 }
