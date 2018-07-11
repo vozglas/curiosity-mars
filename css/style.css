@@ -103,9 +103,38 @@ img {
     text-transform: uppercase;
 }
 
-#photo-detail{
+#photo-detail-back{
     display: none;
+    position: fixed;
+    z-index: 1; 
+    padding-top: 10vh; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4);
+    will-change: transform; /* make a new layer*/
 }
+#photo-detail {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80vw;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#btn-close-modal {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#btn-close-modal:hover, #btn-close-modal:focus {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
 
 
 address {
