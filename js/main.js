@@ -134,12 +134,12 @@ showPhotoDetails = (data, lastFocusedElement) => {
     const detailPhotoWrapper = document.createElement("div");
     const modalContentImg = document.createElement("img");
     modalContentImg.setAttribute('src', `${data.img_src}`);
-    const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date}`
+    const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`
     modalContentImg.setAttribute('alt',  picDescr);
     detailPhotoWrapper.appendChild(modalContentImg);
 
     const detailDescrWrapper = document.createElement("div");
-    detailDescrWrapper.innerHTML = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date}`;
+    detailDescrWrapper.innerHTML = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`;
 
 
     modalContentElement.appendChild(detailPhotoWrapper);
