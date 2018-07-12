@@ -1,4 +1,4 @@
-const cacheVersion = "1_4";
+const cacheVersion = "2";
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
@@ -6,7 +6,7 @@ const imageCache = `image-cache-${cacheVersion}`;
 const allCaches = [staticCache, imageCache];
 
 let beforePath = "";
-fetch('/img/cross64.png').then(response => {
+fetch('/').then(response => {
     if (response.url.pathname.indexOf("curiosity-mars") >=0 ) beforePath = "/curiosity-mars";
 })
 

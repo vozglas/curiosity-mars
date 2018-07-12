@@ -241,7 +241,7 @@ function topFunction() {
 
 // Register SW
 let beforePath = "";
-fetch('/img/cross64.png').then(response => {
+fetch('/').then(response => {
     if (response.url.indexOf("curiosity-mars") >=0 ) beforePath = "/curiosity-mars";
 })
 registerSW = () => {
