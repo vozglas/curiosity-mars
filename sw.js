@@ -1,23 +1,16 @@
-const cacheVersion = "2";
+const cacheVersion = "01";
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
 const allCaches = [staticCache, imageCache];
 
-let beforePath = "";    
-
-//check if we're on github
-fetch('/').then(response => {
-    if (response.url.indexOf("github.io") >= 0) beforePath = "/curiosity-mars";
-}).catch(error => console.log(error));
-
 staticCacheLinks = [
-    `${beforePath}/`,
-    `${beforePath}index.html`,
-    `${beforePath}js/main.js`,
-    `${beforePath}js/idb.js`,
-    `${beforePath}css/style.css`,
-    `${beforePath}img/cross64.png`,
+    `/`,
+    `index.html`,
+    `js/main.js`,
+    `js/idb.js`,
+    `css/style.css`,
+    `img/cross64.png`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
 

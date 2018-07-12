@@ -1,5 +1,4 @@
 const BASE_URL = `https://mars-photos.herokuapp.com/api/v1/`;
-let beforePath = "";
 
 document.addEventListener('DOMContentLoaded', event => {
     const datePicker = document.getElementById('input-date-search');
@@ -238,18 +237,10 @@ function topFunction() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
-
-//check if we're on github
-fetch('/').then(response => {
-    if (response.url.indexOf("github.io") >= 0) beforePath = "/curiosity-mars";
-}).catch(error => console.log(error));
-
 // Register SW
-
-
 registerSW = () => {
     if (navigator.serviceWorker) {
-        navigator.serviceWorker.register(`${beforePath}/sw.js`).then(function(reg) {
+        navigator.serviceWorker.register(`/sw.js`).then(function(reg) {
             if (!navigator.serviceWorker.controller) {
                 return;
             }
