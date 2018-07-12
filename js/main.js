@@ -103,9 +103,11 @@ updatePhotoList = (data) => {
         const img = document.createElement('img');
         img.setAttribute('src', photo.img_src);
         img.setAttribute('alt', `The photo was made by ${photo.rover.name} with ${photo.camera.full_name} on ${photo.earth_date}`);
+        img.className = 'img-list';
         const a = document.createElement('a');
         a.setAttribute('props', JSON.stringify(photo));
         a.href = '/';
+        a.className = 'link-list';
         a.addEventListener('click', (event) => {
             event.preventDefault();
             const lastFocusedElement = document.activeElement;
@@ -139,16 +141,18 @@ showPhotoDetails = (data, lastFocusedElement) => {
     detailPhotoWrapper.appendChild(modalContentImg);
 
     const detailDescrWrapper = document.createElement("div");
-    detailDescrWrapper.innerHTML = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`;
-
-
+    detailDescrWrapper.className = "photo-detail-descr";
+    detailDescrWrapper.innerHTML = picDescr;
+    
+    const fullImgDescr = document.createElement('p');
+    fullImgDescr.innerHTML = `<a href="${data.img_src}" class="new-tab-link" target="_blank">open photo in new tab</a>`;
     modalContentElement.appendChild(detailPhotoWrapper);
     modalContentElement.appendChild(detailDescrWrapper);
+    modalContentElement.appendChild(fullImgDescr);
 
    
     const btnCloseModal = document.createElement('button');
     btnCloseModal.setAttribute('id', 'btn-close-modal');
-    btnCloseModal.innerHTML = "X";
     modalContentElement.appendChild(btnCloseModal);
     btnCloseModal.addEventListener("click", closeModal);
 
@@ -164,7 +168,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     modal.addEventListener('keydown', trapTabKey);
     
     // focusable elements in modal
-    const focusableElementsString = 'button, input[text]';
+    const focusableElementsString = 'button, a';
     let focusableElements = modal.querySelectorAll(focusableElementsString);
     // convert nodelist to array
     focusableElements = Array.prototype.slice.call(focusableElements);

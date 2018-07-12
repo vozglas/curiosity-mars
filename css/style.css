@@ -40,6 +40,12 @@ header h1 {
 
 header h1 a {
     color: #fff;
+    outline: none;
+}
+
+header h1 a:hover,
+header h1 a:focus {
+    box-shadow: 0 4px 8px 0 rgb(167, 0, 0),0 6px 20px 0 rgba(167, 0, 0);
 }
 
 footer {
@@ -80,8 +86,21 @@ img {
 #photos-list li {
     max-width: 200px;
     margin: 10px;
-    border: 1px solid #333;
+    /* border: 1px solid #333; */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     padding: 10px;
+}
+
+#photos-list li:hover {
+    box-shadow: 0 4px 8px 0 rgb(56, 5, 5),0 6px 20px 0 rgba(56, 5, 5);
+}
+
+#photos-list li:focus-within {
+    box-shadow: 0 4px 8px 0 rgb(56, 5, 5),0 6px 20px 0 rgba(56, 5, 5);
+}
+
+.link-list {
+    outline: none;
 }
 
 #photos-caption {
@@ -134,18 +153,27 @@ img {
     max-width: 80vw;
 }
 
+.photo-detail-descr {
+    margin-top: 10px;
+}
+
+.new-tab-link {
+    font-size: .9em;
+}
+
 #btn-close-modal {
-    padding: 5px;
-    border-radius: 50%;
     position: absolute;
-    right:0;
-    top: 0;
-    font-weight: bold;
-    color: #fefefe;
-    background-color: rgb(39, 39, 39);
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
+    right: 3px;
+    top: 3px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    background-image: url('../img/cross64.png');
+    background-repeat: no-repeat;
+    background-size: 48px;
+    outline: none;
 }
 
 #btn-close-modal:hover, #btn-close-modal:focus {
@@ -160,6 +188,11 @@ address {
 }
 address a {
     color: #fff;
+    outline: none;
+}
+
+address a:hover, address a:focus {
+    box-shadow: 0 4px 8px 0 rgb(167, 0, 0),0 6px 20px 0 rgba(167, 0, 0);
 }
 
 @media screen and (max-width: 750px) {
@@ -178,5 +211,9 @@ address a {
 @media screen and (max-width: 400px) {
     header h1, #photos-caption {
         font-size: 18px;
+    }
+
+    #photo-detail {
+        font-size: 14px;
     }
 }
