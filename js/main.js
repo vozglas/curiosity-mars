@@ -1,42 +1,6 @@
-
-// Register SW
-if (navigator.serviceWorker) {
-    navigator.serviceWorker.register("../sw.js").then(reg => {
-        if (!navigator.serviceWorker.controller) return;
-
-        if (reg.waiting) {
-            updateWorker(reg.waiting);
-            return;
-        }
-
-        if (reg.installing) {
-            trackWorker(reg.installing);
-            return;
-        }
-
-        reg.addEventListener("updateFound", () => {
-            trackWorker(reg.installing);
-            return;
-        });
-
-        trackWorker = (worker) => {
-            worker.addEventListener('statechange', () => {
-                if (worker.state === 'installed') updateWorker(worker);
-            })
-        }
-
-        updateWorker = (worker) => {
-            worker.postMessage({action: 'skipWaiting'});
-        }
-    }).catch(error => {
-        console.log(error);
-    })
-}
-
 const BASE_URL = `https://mars-photos.herokuapp.com/api/v1/`;
 
 document.addEventListener('DOMContentLoaded', event => {
-    fillLatestPhotos();
     const datePicker = document.getElementById('input-date-search');
     datePicker.addEventListener('change', event => {
         if (datePicker.value !== "") {
@@ -46,6 +10,10 @@ document.addEventListener('DOMContentLoaded', event => {
         }
 
     })
+    registerSW();
+    openIDB();  
+
+    fillLatestPhotos();
 });
 
 fillLatestPhotos = () => {
@@ -239,4 +207,68 @@ closeModal = () => {
     modal.style.display = "none";
     document.getElementById("photo-detail").innerHTML = "";
     focusOnExit.focus();
+}
+
+
+
+// Register SW
+registerSW = () => {
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/sw.js').then(function(reg) {
+            if (!navigator.serviceWorker.controller) {
+                return;
+            }
+            
+            if (reg.waiting) {
+                updateWorker(reg.waiting);
+                return;
+            }
+
+            if (reg.installing) {
+                trackWorker(reg.installing);
+                return;
+            }
+
+            reg.addEventListener('updatefound', () => {
+                trackWorker(reg.installing);
+                return;
+            });
+
+            trackWorker = (worker) => {
+                worker.addEventListener('statechange', () => {
+                    if (worker.state === 'installed') updateWorker(worker);
+                })
+            }
+
+            updateWorker = (worker) => {
+                worker.postMessage({action: 'skipWaiting'});
+            }
+
+            // Ensure refresh is only called once.
+            // This works around a bug in "force update on reload".
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (refreshing) return;
+            window.location.reload(true);
+            refreshing = true;
+            });    
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+}
+
+// Creating IndexedDB
+openIDB = () => {
+    if (!navigator.serviceWorker) {
+        return Promise.resolve();
+    }    
+
+    return idb.open('marsDB', 1, db => {
+        switch(db.oldVersion) {
+            case 0: 
+            db.createObjectStore('photos', {keyPath: 'id'});
+            db.createObjectStore('manifest', {keyPath: 'name'});
+        }
+    });
 }

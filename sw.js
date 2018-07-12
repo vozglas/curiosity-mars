@@ -9,6 +9,7 @@ staticCacheLinks = [
     "/",
     "/index.html",
     "/js/main.js",
+    "/js/idb.js",
     "/css/style.css",
     "/img/cross64.png",
     "https://fonts.googleapis.com/css?family=Roboto"
@@ -43,7 +44,6 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     const requestUrl = new URL(event.request.url);
     if (requestUrl.origin === location.origin) {
-        console.log(requestUrl.pathname);
         event.respondWith(caches.match(requestUrl.pathname));     
         return;   
     }
@@ -57,7 +57,8 @@ self.addEventListener('fetch', event => {
 
 
 self.addEventListener('message', event => {
+    console.log(`got message ${event.data.action}`)
     if (event.data.action === 'skipWaiting') {
-        self.skipWaiting();
+        return self.skipWaiting();
     }
 })
