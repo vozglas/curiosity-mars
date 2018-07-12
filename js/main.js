@@ -1,5 +1,40 @@
 
+// Register SW
+if (navigator.serviceWorker) {
+    navigator.serviceWorker.register("../sw.js").then(reg => {
+        if (!navigator.serviceWorker.controller) return;
+
+        if (reg.waiting) {
+            updateWorker(reg.waiting);
+            return;
+        }
+
+        if (reg.installing) {
+            trackWorker(reg.installing);
+            return;
+        }
+
+        reg.addEventListener("updateFound", () => {
+            trackWorker(reg.installing);
+            return;
+        });
+
+        trackWorker = (worker) => {
+            worker.addEventListener('statechange', () => {
+                if (worker.state === 'installed') updateWorker(worker);
+            })
+        }
+
+        updateWorker = (worker) => {
+            worker.postMessage({action: 'skipWaiting'});
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+}
+
 const BASE_URL = `https://mars-photos.herokuapp.com/api/v1/`;
+
 document.addEventListener('DOMContentLoaded', event => {
     fillLatestPhotos();
     const datePicker = document.getElementById('input-date-search');
