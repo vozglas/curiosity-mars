@@ -1,17 +1,22 @@
-const cacheVersion = "1_2";
+const cacheVersion = "1_4";
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
 
 const allCaches = [staticCache, imageCache];
 
+let beforePath = "";
+fetch('/img/cross64.png').then(response => {
+    if (response.url.pathname.indexOf("curiosity-mars") >=0 ) beforePath = "/curiosity-mars";
+})
+
 staticCacheLinks = [
-    "/",
-    "/index.html",
-    "/js/main.js",
-    "/js/idb.js",
-    "/css/style.css",
-    "/img/cross64.png",
+    `${beforePath}/`,
+    `${beforePath}index.html`,
+    `${beforePath}js/main.js`,
+    `${beforePath}js/idb.js`,
+    `${beforePath}css/style.css`,
+    `${beforePath}img/cross64.png`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
 

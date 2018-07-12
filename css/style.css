@@ -42,11 +42,13 @@ header h1 a {
     color: #fff;
     outline: none;
     text-decoration: none;
+    background-color: transparent;
 }
 
 header h1 a:hover,
 header h1 a:focus {
-    box-shadow: 0 4px 8px 0 rgb(167, 0, 0),0 6px 20px 0 rgba(167, 0, 0);
+    text-shadow: 0 0 25px red, 0 0 25px #FFF;
+    text-decoration: underline;
 }
 
 footer {
@@ -190,18 +192,20 @@ address {
 address a {
     color: #fff;
     outline: none;
+    text-decoration: none;
 }
 
 address a:hover, address a:focus {
-    box-shadow: 0 4px 8px 0 rgb(167, 0, 0),0 6px 20px 0 rgba(167, 0, 0);
+    text-shadow: 0 0 25px red, 0 0 25px #FFF;
+    text-decoration: underline;
 }
 
 #btnScrollUp {
     display: none; 
     position: fixed;
-    bottom: 20px; 
+    bottom: 30px; 
     right: 30px; 
-    z-index: 99; 
+    z-index: 0; 
     border: none; 
     outline: none; 
     background-color: red; 
@@ -236,5 +240,13 @@ address a:hover, address a:focus {
 
     #photo-detail {
         font-size: 14px;
+    }
+
+    address {
+        text-align: center;
+    }
+
+    #photo-detail-back{
+        padding-top: 15vh;
     }
 }

@@ -212,7 +212,17 @@ closeModal = () => {
 
 // Scroll Top Button
 // When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
+// Only if viewport is <= 400px
+const matchVP = window.matchMedia("(max-width: 400px)")
+checkVP(matchVP) // Call listener function at run time
+matchVP.addListener(checkVP) // Attach listener function on state changes
+function checkVP(matchVP) {
+    if (matchVP.matches) { // If media query matches
+        window.onscroll = function() {
+            scrollFunction()
+        };
+    }
+}
 
 function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -230,9 +240,13 @@ function topFunction() {
 
 
 // Register SW
+let beforePath = "";
+fetch('/img/cross64.png').then(response => {
+    if (response.url.indexOf("curiosity-mars") >=0 ) beforePath = "/curiosity-mars";
+})
 registerSW = () => {
     if (navigator.serviceWorker) {
-        navigator.serviceWorker.register('../sw.js').then(function(reg) {
+        navigator.serviceWorker.register(`${beforePath}/sw.js`).then(function(reg) {
             if (!navigator.serviceWorker.controller) {
                 return;
             }
@@ -270,9 +284,9 @@ registerSW = () => {
             window.location.reload(true);
             refreshing = true;
             });    
-        }).catch(error => {
+        })/* .catch(error => {
             console.log(error);
-        })
+        }) */
     }
 }
 
