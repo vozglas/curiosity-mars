@@ -1,4 +1,4 @@
-const cacheVersion = "2";
+const cacheVersion = "4";
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
@@ -6,9 +6,9 @@ const imageCache = `image-cache-${cacheVersion}`;
 const allCaches = [staticCache, imageCache];
 
 let beforePath = "";
-fetch('/').then(response => {
-    if (response.url.pathname.indexOf("curiosity-mars") >=0 ) beforePath = "/curiosity-mars";
-})
+fetch('/curiosity-mars').then(response => {
+    if (response) beforePath = "/curiosity-mars";
+}).catch(error => console.log(error));
 
 staticCacheLinks = [
     `${beforePath}/`,

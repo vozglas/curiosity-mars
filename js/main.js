@@ -241,9 +241,9 @@ function topFunction() {
 
 // Register SW
 let beforePath = "";
-fetch('/').then(response => {
-    if (response.url.indexOf("curiosity-mars") >=0 ) beforePath = "/curiosity-mars";
-})
+fetch('/curiosity-mars').then(response => {
+    if (response) beforePath = "/curiosity-mars";
+}).catch(error => console.log(error));
 registerSW = () => {
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register(`${beforePath}/sw.js`).then(function(reg) {
