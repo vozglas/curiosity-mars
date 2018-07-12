@@ -242,7 +242,7 @@ function topFunction() {
 // Register SW
 let beforePath = "";
 fetch('/curiosity-mars').then(response => {
-    if (response) beforePath = "/curiosity-mars";
+    if (response.url.indexOf("curiosity-mars") >= 0) beforePath = "/curiosity-mars";
 }).catch(error => console.log(error));
 registerSW = () => {
     if (navigator.serviceWorker) {
