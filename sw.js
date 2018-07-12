@@ -1,13 +1,14 @@
-const cacheVersion = "5";
+const cacheVersion = "2";
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
-
 const allCaches = [staticCache, imageCache];
 
-let beforePath = "";
-fetch('/curiosity-mars').then(response => {
-    if (response.url.indexOf("curiosity-mars") >= 0) beforePath = "/curiosity-mars";
+let beforePath = "";    
+
+//check if we're on github
+fetch('/').then(response => {
+    if (response.url.indexOf("github.io") >= 0) beforePath = "/curiosity-mars";
 }).catch(error => console.log(error));
 
 staticCacheLinks = [
