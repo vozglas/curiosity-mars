@@ -172,7 +172,12 @@ const config = {
 loadImage = (image_src) => {
     const img = document.createElement('img');
     img.style.opacity = 0;
-    img.setAttribute('src', image_src.dataset.src.replace('http://', 'https://'));
+    // resizing image with 3 party api
+    imgUrl = image_src.dataset.src; //.replace('http://', 'https://');
+    let newUrl = new URL(imgUrl);
+    let readyImg200 = `${newUrl.origin}.rsz.io${newUrl.pathname}?width=200&height=200&scale=down`;
+
+    img.setAttribute('src', readyImg200); //image_src.dataset.src.replace('http://', 'https://'));
     img.setAttribute('alt', image_src.dataset.alt);
     img.className =  image_src.dataset.class;
     image_src.append(img);
