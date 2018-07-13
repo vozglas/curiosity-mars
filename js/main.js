@@ -100,29 +100,89 @@ fetchRoverInfo = (name) => {
 }
 
 updatePhotoList = (data) => {
-    let photoList = document.getElementById('photos-list');
     for (const photo of data) {
-        const li = document.createElement('li');
-        const img = document.createElement('img');
-        img.setAttribute('src', photo.img_src);
-        img.setAttribute('alt', `The photo was made by ${photo.rover.name} with ${photo.camera.full_name} on ${photo.earth_date}`);
-        img.className = 'img-list';
-        const a = document.createElement('a');
-        a.setAttribute('props', JSON.stringify(photo));
-        a.href = '/';
-        a.className = 'link-list';
-        a.addEventListener('click', (event) => {
-            event.preventDefault();
-            const lastFocusedElement = document.activeElement;
-            showPhotoDetails(photo, lastFocusedElement)
-        }, this);
-        a.appendChild(img);
-        li.appendChild(a);
-        photoList.appendChild(li);
+        //loadImage(photo);
+        setImgPlaceHolder(photo);
     }
+    lazyLoad();
+}
+// create placeHolder for picture for future lazy-load
+setImgPlaceHolder = (imgData) => {
+    let photoList = document.getElementById('photos-list');
+    const li = document.createElement('li');
+    li.setAttribute('id', imgData.id);
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'lazy-img';
+    imgWrap.setAttribute('data-src', imgData.img_src)
+    imgWrap.setAttribute('data-alt', `The photo was made by ${imgData.rover.name} with ${imgData.camera.full_name} on ${imgData.earth_date}`);
+    imgWrap.setAttribute('data-class', 'img-list');
+    imgWrap.setAttribute('data-id', imgData.id);
+
+    const a = document.createElement('a');
+    a.setAttribute('props', JSON.stringify(imgData));
+    a.href = '/';
+    a.className = 'link-list';
+    a.addEventListener('click', (event) => {
+        event.preventDefault();
+        const lastFocusedElement = document.activeElement;
+        showPhotoDetails(imgData, lastFocusedElement)
+    }, this);
+    a.appendChild(imgWrap);
+    li.appendChild(a);
+    photoList.appendChild(li);
 }
 
+/************************* 
+* Lazy-loading pictures
+*************************/
+const config = {
+    // If the image gets within 50px in the Y axis, start the download.
+    rootMargin: '50px 0px',
+    threshold: 0.01
+  };
+  let observer = new IntersectionObserver(onIntersection, config);
+  
+  // Get all of the elements that are marked up to lazy load
+  lazyLoad = () => {
+    const images = document.querySelectorAll('.lazy-img');
+    if (!('IntersectionObserver' in window)) {
+        // no oberver. load all pictures 
+        console.log('no observer');
+        for (const image of images) {
+          loadImage(image);
+        }
+      } else {
+        for (const image of images) {
+          observer.observe(image);
+        }
+      }
+  }
+  
+  function onIntersection(entries) {
+    for (const entry of entries) {
+        if (entry.intersectionRatio > 0) {
+        // Stop watching and load the image
+        observer.unobserve(entry.target);
+        loadImage(entry.target);
+        }
+    }
+  }
 
+
+loadImage = (image_src) => {
+    const img = document.createElement('img');
+    img.style.opacity = 0;
+    img.setAttribute('src', image_src.dataset.src);
+    img.setAttribute('alt', image_src.dataset.alt);
+    img.className =  image_src.dataset.class;
+    image_src.append(img);
+
+    img.addEventListener('load', () => {
+        let li = document.getElementById(image_src.dataset.id)
+        li.style.background = "none";
+        img.style.opacity = 1;
+    })
+}
 
 // ---- photo details modal
 let firstTabStop = null;

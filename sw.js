@@ -1,4 +1,4 @@
-const cacheVersion = "01";
+const cacheVersion = "3";
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
@@ -11,6 +11,7 @@ staticCacheLinks = [
     `js/idb.js`,
     `css/style.css`,
     `img/cross64.png`,
+    `img/loading.svg`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
 
