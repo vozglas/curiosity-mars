@@ -204,8 +204,17 @@ showPhotoDetails = (data, lastFocusedElement) => {
     const detailPhotoWrapper = document.createElement("div");
     const modalContentImg = document.createElement("img");
 
-
-    modalContentImg.setAttribute('src', `${data.img_src.replace('http://', 'https://')}`);
+    if (viewPortMatchMaxWidth('400px')) {
+        // small device. no need to show full photo
+            // resizing image with 3 party api
+        imgUrl = data.image_src; //.replace('http://', 'https://');
+        let newUrl = new URL(imgUrl);
+        let readyImg300 = `${newUrl.origin}.rsz.io${newUrl.pathname}?width=200&height=300&scale=down`;
+        modalContentImg.setAttribute('src', readyImg300);
+    }  else {
+        modalContentImg.setAttribute('src', `${data.img_src.replace('http://', 'https://')}`);
+    }
+    
     const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`
     modalContentImg.setAttribute('alt',  picDescr);
     detailPhotoWrapper.appendChild(modalContentImg);
@@ -377,4 +386,17 @@ openIDB = () => {
             db.createObjectStore('manifest', {keyPath: 'name'});
         }
     });
+}
+
+viewPortMatchMaxWidth = (maxWidth) => {
+    const matchVP = window.matchMedia(`(max-width: ${maxWidth})`)
+    checkVP(matchVP) // Call listener function at run time
+    matchVP.addListener(checkVP) // Attach listener function on state changes
+    function checkVP(matchVP) {
+        if (matchVP.matches) { // If media query matches
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
