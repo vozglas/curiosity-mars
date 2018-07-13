@@ -209,7 +209,7 @@ address a:hover, address a:focus {
     display: none; 
     position: fixed;
     bottom: 40px; 
-    right: 30px; 
+    right: 5px; 
     z-index: 0; 
     border: none; 
     outline: none; 
