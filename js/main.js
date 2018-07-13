@@ -338,9 +338,9 @@ registerSW = () => {
             window.location.reload(true);
             refreshing = true;
             });    
-        })/* .catch(error => {
+        }).catch(error => {
             console.log(error);
-        }) */
+        })
     }
 }
 
