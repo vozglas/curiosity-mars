@@ -198,7 +198,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     
     const detailPhotoWrapper = document.createElement("div");
     const modalContentImg = document.createElement("img");
-    modalContentImg.setAttribute('src', `${data.img_src}`);
+    modalContentImg.setAttribute('src', `${data.img_src.replace('http://', 'https://')}`);
     const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`
     modalContentImg.setAttribute('alt',  picDescr);
     detailPhotoWrapper.appendChild(modalContentImg);
