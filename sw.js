@@ -1,4 +1,4 @@
-const cacheVersion = "1";
+const cacheVersion = "2";
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
@@ -7,6 +7,7 @@ const allCaches = [staticCache, imageCache];
 staticCacheLinks = [
     `/`,
     `index.html`,
+    `js/intersection-observer.js`,
     `js/main.js`,
     `js/idb.js`,
     `css/style.css`,
