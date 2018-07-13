@@ -172,7 +172,7 @@ const config = {
 loadImage = (image_src) => {
     const img = document.createElement('img');
     img.style.opacity = 0;
-    img.setAttribute('src', image_src.dataset.src);
+    img.setAttribute('src', image_src.dataset.src.replace('http://', 'https://'));
     img.setAttribute('alt', image_src.dataset.alt);
     img.className =  image_src.dataset.class;
     image_src.append(img);
