@@ -203,6 +203,8 @@ showPhotoDetails = (data, lastFocusedElement) => {
     
     const detailPhotoWrapper = document.createElement("div");
     const modalContentImg = document.createElement("img");
+
+
     modalContentImg.setAttribute('src', `${data.img_src.replace('http://', 'https://')}`);
     const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`
     modalContentImg.setAttribute('alt',  picDescr);
@@ -223,6 +225,19 @@ showPhotoDetails = (data, lastFocusedElement) => {
     btnCloseModal.setAttribute('id', 'btn-close-modal');
     modalContentElement.appendChild(btnCloseModal);
     btnCloseModal.addEventListener("click", closeModal);
+
+
+    modalContentElement.style.backgroundImage = "url('/img/loading.svg')";
+    modalContentElement.style.backgroundRepeat = "no-repeat";
+    modalContentElement.style.backgroundPosition = "center center";
+    btnCloseModal.style.display = "none";
+
+
+    modalContentImg.addEventListener('load', () => {
+        modalContentElement.style.backgroundImage = "none";
+        btnCloseModal.style.display = "block";
+
+    });
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = event => {
