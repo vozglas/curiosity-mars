@@ -200,22 +200,36 @@ showPhotoDetails = (data, lastFocusedElement) => {
     modal = document.getElementById('photo-detail-back');
     modal.style.display = "block";
     let modalContentElement = document.getElementById("photo-detail");
-    
     const detailPhotoWrapper = document.createElement("div");
-    const modalContentImg = document.createElement("img");
-    if (viewPortMatchMaxWidth('400px')) {
-        // small device. no need to show full photo
-        // resizing image with 3 party api
-        let newUrl = new URL(`${data.img_src}`);
-        let readyImg300 = `${newUrl.origin}.rsz.io${newUrl.pathname}?width=300&height=300&scale=down`;
-        modalContentImg.setAttribute('src', readyImg300);
-    }  else {
-        modalContentImg.setAttribute('src', `${data.img_src.replace('http://', 'https://')}`);
-    }
     
+    let newUrl = new URL(`${data.img_src}`);
+    const modalContentImg = document.createElement("picture");
+    let picSource600 = document.createElement("source");
+    picSource600.setAttribute('srcset', `${newUrl.origin}.rsz.io${newUrl.pathname}?width=600&height=600&scale=down&quality=30`)
+    picSource600.setAttribute('media', `(max-width: 600px)`);
+    picSource600.setAttribute('type', `image/jpeg`);
+    modalContentImg.appendChild(picSource600);
+    
+    let picSource1000 = document.createElement("source");
+    picSource1000.setAttribute('srcset', `${newUrl.origin}.rsz.io${newUrl.pathname}?width=800&height=800&scale=down&quality=50`);
+    picSource1000.setAttribute('media', `(min-width: 601px) and (max-width: 1400px)`);
+    picSource1000.setAttribute('type', `image/jpeg`);
+    modalContentImg.appendChild(picSource1000);
+    
+    let picSourceBig = document.createElement("source");
+    picSourceBig.setAttribute('srcset', `${newUrl.origin}.rsz.io${newUrl.pathname}?width=1400&height=1400&scale=down&quality=1000`);
+    picSourceBig.setAttribute('media', `(min-width: 1001px)`);
+    picSourceBig.setAttribute('type', `image/jpeg`);
+    modalContentImg.appendChild(picSourceBig);
+    
+    let imgSource = document.createElement("img");
     const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`
-    modalContentImg.setAttribute('alt',  picDescr);
+    imgSource.setAttribute('src', `${data.img_src}`);
+    imgSource.setAttribute('alt',  picDescr);
+    modalContentImg.appendChild(imgSource);
+
     detailPhotoWrapper.appendChild(modalContentImg);
+
 
     const detailDescrWrapper = document.createElement("div");
     detailDescrWrapper.className = "photo-detail-descr";
@@ -240,7 +254,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     btnCloseModal.style.display = "none";
 
 
-    modalContentImg.addEventListener('load', () => {
+    imgSource.addEventListener('load', () => {
         modalContentElement.style.backgroundImage = "none";
         btnCloseModal.style.display = "block";
 
@@ -384,9 +398,4 @@ openIDB = () => {
             db.createObjectStore('manifest', {keyPath: 'name'});
         }
     });
-}
-
-viewPortMatchMaxWidth = (maxWidth) => {
-    const matchVP = window.matchMedia(`(max-width: ${maxWidth})`)
-    return matchVP.matches;
 }

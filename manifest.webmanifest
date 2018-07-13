@@ -6,7 +6,7 @@
     "display": "standalone",
     "background_color": "#888",
     "theme_color" : "#888",
-    "description": "Photos of Mars made by Curiosity rover.",
+    "description": "Explore Mars with Curiosity rover!",
     "icons": [{
       "src": "/img/touch/mc48.png",
       "sizes": "48x48",
