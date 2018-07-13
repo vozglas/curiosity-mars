@@ -203,13 +203,11 @@ showPhotoDetails = (data, lastFocusedElement) => {
     
     const detailPhotoWrapper = document.createElement("div");
     const modalContentImg = document.createElement("img");
-
     if (viewPortMatchMaxWidth('400px')) {
         // small device. no need to show full photo
-            // resizing image with 3 party api
-        imgUrl = data.image_src; //.replace('http://', 'https://');
-        let newUrl = new URL(imgUrl);
-        let readyImg300 = `${newUrl.origin}.rsz.io${newUrl.pathname}?width=200&height=300&scale=down`;
+        // resizing image with 3 party api
+        let newUrl = new URL(`${data.img_src}`);
+        let readyImg300 = `${newUrl.origin}.rsz.io${newUrl.pathname}?width=300&height=300&scale=down`;
         modalContentImg.setAttribute('src', readyImg300);
     }  else {
         modalContentImg.setAttribute('src', `${data.img_src.replace('http://', 'https://')}`);
@@ -390,13 +388,5 @@ openIDB = () => {
 
 viewPortMatchMaxWidth = (maxWidth) => {
     const matchVP = window.matchMedia(`(max-width: ${maxWidth})`)
-    checkVP(matchVP) // Call listener function at run time
-    matchVP.addListener(checkVP) // Attach listener function on state changes
-    function checkVP(matchVP) {
-        if (matchVP.matches) { // If media query matches
-            return true;
-        } else {
-            return false;
-        }
-    }
+    return matchVP.matches;
 }
