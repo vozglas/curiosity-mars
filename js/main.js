@@ -101,7 +101,6 @@ fetchRoverInfo = (name) => {
 
 updatePhotoList = (data) => {
     for (const photo of data) {
-        //loadImage(photo);
         setImgPlaceHolder(photo);
     }
     lazyLoad();
@@ -173,9 +172,8 @@ loadImage = (image_src) => {
     const img = document.createElement('img');
     img.style.opacity = 0;
     // resizing image with 3 party api
-    imgUrl = image_src.dataset.src; //.replace('http://', 'https://');
-    let newUrl = new URL(imgUrl);
-    let readyImg200 = `${newUrl.origin}.rsz.io${newUrl.pathname}?width=200&height=200&scale=down`;
+    imgUrl = image_src.dataset.src;
+    let readyImg200 = `https://rsz.io/${imgUrl.replace('http://', '')}?width=200&height=200&scale=down`;
 
     img.setAttribute('src', readyImg200); //image_src.dataset.src.replace('http://', 'https://'));
     img.setAttribute('alt', image_src.dataset.alt);
