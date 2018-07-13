@@ -202,29 +202,29 @@ showPhotoDetails = (data, lastFocusedElement) => {
     let modalContentElement = document.getElementById("photo-detail");
     const detailPhotoWrapper = document.createElement("div");
     
-    let newUrl = new URL(`${data.img_src}`);
+    //let newUrl = new URL(`${data.img_src}`);
     const modalContentImg = document.createElement("picture");
     let picSource600 = document.createElement("source");
-    picSource600.setAttribute('srcset', `${newUrl.origin}.rsz.io${newUrl.pathname}?width=600&height=600&scale=down&quality=30`)
+    picSource600.setAttribute('srcset', `https://rsz.io/${data.img_src.replace('http://', '')}?width=600&height=600&scale=down&quality=30`)
     picSource600.setAttribute('media', `(max-width: 600px)`);
     picSource600.setAttribute('type', `image/jpeg`);
     modalContentImg.appendChild(picSource600);
     
     let picSource1000 = document.createElement("source");
-    picSource1000.setAttribute('srcset', `${newUrl.origin}.rsz.io${newUrl.pathname}?width=800&height=800&scale=down&quality=50`);
+    picSource1000.setAttribute('srcset', `https://rsz.io/${data.img_src.replace('http://', '')}?width=800&height=800&scale=down&quality=50`);
     picSource1000.setAttribute('media', `(min-width: 601px) and (max-width: 1400px)`);
     picSource1000.setAttribute('type', `image/jpeg`);
     modalContentImg.appendChild(picSource1000);
     
     let picSourceBig = document.createElement("source");
-    picSourceBig.setAttribute('srcset', `${newUrl.origin}.rsz.io${newUrl.pathname}?width=1400&height=1400&scale=down&quality=1000`);
+    picSourceBig.setAttribute('srcset', `https://rsz.io/${data.img_src.replace('http://', '')}?width=1400&height=1400&scale=down&quality=1000`);
     picSourceBig.setAttribute('media', `(min-width: 1001px)`);
     picSourceBig.setAttribute('type', `image/jpeg`);
     modalContentImg.appendChild(picSourceBig);
     
     let imgSource = document.createElement("img");
     const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`
-    imgSource.setAttribute('src', `${data.img_src}`);
+    imgSource.setAttribute('src', `${data.img_src}.replace('http://', 'https://')`);
     imgSource.setAttribute('alt',  picDescr);
     modalContentImg.appendChild(imgSource);
 
