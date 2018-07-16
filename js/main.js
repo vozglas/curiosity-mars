@@ -1,4 +1,16 @@
 const BASE_URL = `https://mars-photos.herokuapp.com/api/v1/`;
+const resizeUrl = `https://rsz.io/`;
+const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
+
+makeUrl = (imgUrl, resize = true, width = `600`, height = `600`, quality = 75) => {
+    imgUrl = imgUrl.replace('http://', '').replace('https://', '')
+    if (resize) {
+        return `${resizeUrl}${imgUrl}?width=${width}&height=${height}&scale=down&quality=${quality}`;
+    } else {
+        return `https://${imgUrl}`;
+    }
+}
+    
 
 document.addEventListener('DOMContentLoaded', event => {
     const datePicker = document.getElementById('input-date-search');
@@ -8,11 +20,9 @@ document.addEventListener('DOMContentLoaded', event => {
         } else {
             fillLatestPhotos();
         }
-
     })
     registerSW();
     openIDB();  
-
     fillLatestPhotos();
 });
 
@@ -20,15 +30,20 @@ fillLatestPhotos = () => {
     cleanMainPage();
     setPhotosCaption(`Loading latest photos`, '...');
     fetchLatestPhotos().then(data => {
-        setPhotosCaption();
-        updatePhotoList(data);
+        if (data.length > 0) {
+            document.getElementById('input-date-search').value = data[0].earth_date;
+            setPhotosCaption(`Photos taken on`, data[0].earth_date, data.length);
+            updatePhotoList(data);
+        } else {
+            setPhotosCaption(`Nothing found`, ``, 0);
+        }        
     });
 }
 
 fillPhotosByEarthDate = (date) => {
     cleanMainPage();
     setPhotosCaption(`Searching`, '...');
-    return fetchPhotosByEarthDate(date).then(data => {
+    fetchPhotosByEarthDate(date).then(data => {
         if (data.length > 0) {
             setPhotosCaption(`Photos taken on`, date, data.length);
             updatePhotoList(data);
@@ -138,53 +153,41 @@ const config = {
     // If the image gets within 50px in the Y axis, start the download.
     rootMargin: '50px 0px',
     threshold: 0.01
-  };
-  let observer = new IntersectionObserver(onIntersection, config);
+};
   
-  // Get all of the elements that are marked up to lazy load
-  lazyLoad = () => {
-    const images = document.querySelectorAll('.lazy-img');
-    if (!('IntersectionObserver' in window)) {
+let observer = new IntersectionObserver(onIntersection, config);
+  
+// Get all of the elements that are marked up to lazy load
+lazyLoad = () => {
+const images = document.querySelectorAll('.lazy-img');
+if (!('IntersectionObserver' in window)) {
         // no oberver. load all pictures 
         console.log('no observer');
         for (const image of images) {
-          loadImage(image);
+            loadImage(image);
         }
-      } else {
+    } else {
         for (const image of images) {
-          observer.observe(image);
-        }
-      }
-  }
-  
-  function onIntersection(entries) {
-    for (const entry of entries) {
-        if (entry.intersectionRatio > 0) {
-        // Stop watching and load the image
-        observer.unobserve(entry.target);
-        loadImage(entry.target);
+            observer.observe(image);
         }
     }
-  }
+}
+
+function onIntersection(entries) {
+    for (const entry of entries) {
+        if (entry.intersectionRatio > 0) {
+            // Stop watching and load the image
+            observer.unobserve(entry.target);
+            loadImage(entry.target);
+        }
+    }
+}
 
 
 loadImage = (image_src) => {
-    const img = document.createElement('img');
-    img.style.opacity = 0;
-    // resizing image with 3 party api
-    imgUrl = image_src.dataset.src;
-    let readyImg200 = `https://rsz.io/${imgUrl.replace('http://', '')}?width=200&height=200&scale=down`;
-
-    img.setAttribute('src', readyImg200); //image_src.dataset.src.replace('http://', 'https://'));
-    img.setAttribute('alt', image_src.dataset.alt);
-    img.className =  image_src.dataset.class;
-    image_src.append(img);
-
-    img.addEventListener('load', () => {
-        let li = document.getElementById(image_src.dataset.id)
-        li.style.background = "none";
-        img.style.opacity = 1;
-    })
+    console.log(image_src);
+    const pic = makePictureElem(image_src.dataset.src, image_src.dataset.alt, image_src.dataset.class, image_src.dataset.id);
+    image_src.append(pic);
 }
 
 // ---- photo details modal
@@ -194,37 +197,14 @@ let modal = null;
 let focusOnExit = null;
 
 showPhotoDetails = (data, lastFocusedElement) => {
+    //const picUrl = data.img_src.replace('http://', '');
     focusOnExit = lastFocusedElement;
     modal = document.getElementById('photo-detail-back');
     modal.style.display = "block";
     let modalContentElement = document.getElementById("photo-detail");
     const detailPhotoWrapper = document.createElement("div");
-    
-    //let newUrl = new URL(`${data.img_src}`);
-    const modalContentImg = document.createElement("picture");
-    let picSource600 = document.createElement("source");
-    picSource600.setAttribute('srcset', `https://rsz.io/${data.img_src.replace('http://', '')}?width=600&height=600&scale=down&quality=30`)
-    picSource600.setAttribute('media', `(max-width: 600px)`);
-    picSource600.setAttribute('type', `image/jpeg`);
-    modalContentImg.appendChild(picSource600);
-    
-    let picSource1000 = document.createElement("source");
-    picSource1000.setAttribute('srcset', `https://rsz.io/${data.img_src.replace('http://', '')}?width=800&height=800&scale=down&quality=50`);
-    picSource1000.setAttribute('media', `(min-width: 601px) and (max-width: 1400px)`);
-    picSource1000.setAttribute('type', `image/jpeg`);
-    modalContentImg.appendChild(picSource1000);
-    
-    let picSourceBig = document.createElement("source");
-    picSourceBig.setAttribute('srcset', `https://rsz.io/${data.img_src.replace('http://', '')}?width=1400&height=1400&scale=down&quality=1000`);
-    picSourceBig.setAttribute('media', `(min-width: 1001px)`);
-    picSourceBig.setAttribute('type', `image/jpeg`);
-    modalContentImg.appendChild(picSourceBig);
-    
-    let imgSource = document.createElement("img");
-    const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`
-    imgSource.setAttribute('src', `${data.img_src}.replace('http://', 'https://')`);
-    imgSource.setAttribute('alt',  picDescr);
-    modalContentImg.appendChild(imgSource);
+    const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`;
+    const modalContentImg = makePictureElem(data.img_src, picDescr);
 
     detailPhotoWrapper.appendChild(modalContentImg);
 
@@ -252,11 +232,10 @@ showPhotoDetails = (data, lastFocusedElement) => {
     btnCloseModal.style.display = "none";
 
 
-    imgSource.addEventListener('load', () => {
+/*     imgSource.addEventListener('load', () => {
         modalContentElement.style.backgroundImage = "none";
         btnCloseModal.style.display = "block";
-
-    });
+    }); */
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = event => {
@@ -281,6 +260,45 @@ showPhotoDetails = (data, lastFocusedElement) => {
     // focusing on first stop
     lastTabStop.focus();
 
+}
+
+makePictureElem = (picUrl, picDescr, className = '', id = '') => {
+    const picElem = document.createElement("picture");
+    let picSource600 = document.createElement("source");
+    picSource600.setAttribute('srcset',  makeUrl(picUrl, true, `600`, `600`,30));
+    picSource600.setAttribute('media', `(max-width: 600px)`);
+    picSource600.setAttribute('type', `image/jpeg`);
+    picElem.appendChild(picSource600);
+    
+    let picSource800 = document.createElement("source");
+    picSource800.setAttribute('srcset', makeUrl(picUrl, true, `800`, `800`,50)) ;
+    picSource800.setAttribute('media', `(min-width: 601px) and (max-width: 800px)`);
+    picSource800.setAttribute('type', `image/jpeg`);
+    picElem.appendChild(picSource800);
+    
+    let picSourceBig = document.createElement("source");
+    picSourceBig.setAttribute('srcset',  makeUrl(picUrl, true, id ? `400` :`1000`, id ? `400` :`1000`));
+    picSourceBig.setAttribute('media', `(min-width: 801px)`);
+    picSourceBig.setAttribute('type', `image/jpeg`);
+    picElem.appendChild(picSourceBig);
+    
+    let imgSource = document.createElement("img");
+    imgSource.setAttribute('src', makeUrl(picUrl, false));
+    imgSource.setAttribute('alt',  picDescr);
+    imgSource.className = className;
+    picElem.appendChild(imgSource);
+
+
+    imgSource.addEventListener('load', () => {
+        if (id) {
+            let li = document.getElementById(id)
+            li.style.background = "none";
+            imgSource.style.opacity = 1;
+        }
+        picElem.style.backgroundImage = "none";
+    });
+
+    return picElem;
 }
 
 trapTabKey = (e) => {

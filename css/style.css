@@ -3,13 +3,11 @@ html {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     color: #333;
-    /* height: 100%; */ 
 }
 
 body {
     margin: 0;
     position: relative;
-    box-sizing: border-box;
 }
 
 
@@ -22,7 +20,7 @@ header, footer {
     width: 100%;
     background-color: black;
     color: #fdfdfd;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -58,7 +56,7 @@ footer {
 #maincontent {
     width: 100%;
     position: relative;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: auto;
     background-color: #e9e9e9;
     height: 100%;
@@ -70,16 +68,15 @@ img {
 
 
 .filter {
-    padding: 10px 20px;
-    background-color: #ccc;
-    text-align: right;
-    color: #000;
+    padding: 0 0 20px;
+    text-align: center;
+    color: #fff;
 }
 
 #photos-list {
     list-style: none;
     display: flex;
-    justify-content: space-between;
+    align-content: flex-start;
     flex-wrap: wrap;
     margin: auto;
     padding: 0;
@@ -87,24 +84,26 @@ img {
 }
 
 #photos-list li {
-    width: 200px;
-    height: 200px;
-    margin: 10px;
-    /* border: 1px solid #333; */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    padding: 10px;
+    width: 25%;
+    min-height: 200px;
     background-image: url('../img/loading.svg');
     background-repeat: no-repeat;
-    background-size: 230px;
-    
+    text-align: center;
+    border: 3px solid #e9e9e9;
+    box-sizing: border-box;
 }
 
+.lazy-img {
+    padding: 5px;
+}
+
+
 #photos-list li:hover {
-    box-shadow: 0 4px 8px 0 rgb(56, 5, 5),0 6px 20px 0 rgba(56, 5, 5);
+    /* box-shadow: 0 4px 8px 0 rgb(56, 5, 5),0 6px 20px 0 rgba(56, 5, 5); */
 }
 
 #photos-list li:focus-within {
-    box-shadow: 0 4px 8px 0 rgb(56, 5, 5),0 6px 20px 0 rgba(56, 5, 5);
+    /* box-shadow: 0 4px 8px 0 rgb(56, 5, 5),0 6px 20px 0 rgba(56, 5, 5); */
 }
 
 .link-list {
@@ -122,7 +121,6 @@ img {
 
 #total-photos {
     width: 100%;
-    padding: 5px;
     text-align: center;
     font-size: 1rem;
     font-weight: 200;
@@ -190,9 +188,9 @@ img {
 
 
 
-address {
+/* address {
     text-align: right;
-    padding: 10px;
+    padding: 10px 0;
 }
 address a {
     color: #fff;
@@ -203,7 +201,7 @@ address a {
 address a:hover, address a:focus {
     text-shadow: 0 0 25px red, 0 0 25px #FFF;
     text-decoration: underline;
-}
+} */
 
 #btnScrollUp {
     display: none; 
@@ -225,20 +223,29 @@ address a:hover, address a:focus {
     background-color: #555; 
 }
 
-@media screen and (max-width: 750px) {
-    #photos-list li {
-        max-width: 250px;
-    }
-}
+
 @media screen and (max-width: 600px) {
     #photos-list {
-        justify-content: center;
+        
     }
-    #photos-list li {
-        max-width: 400px;
+    #photos-list li{
+       width: 100%;
     }
 }
-@media screen and (max-width: 400px) {
+@media screen and (min-width: 601px) and (max-width: 768px) {
+    #photos-list li{
+        width: 100%;
+    }
+}
+@media screen and (min-width: 769px) and (max-width: 1020px) {
+
+}
+@media screen and (min-width: 1021px) {
+    
+}
+
+
+@media screen and (max-width: 415px) {
     header h1, #photos-caption {
         font-size: 16px;
     }
