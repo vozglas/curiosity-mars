@@ -6,7 +6,7 @@ const imageCache = `image-cache-${cacheVersion}`;
 const allCaches = [staticCache, imageCache];
 
 let startPath = "/";
-if (location.pathname.startsWith('curiosity')) startPath = "/curiosity-mars/";
+if (location.pathname.startsWith('/curiosity')) startPath = "/curiosity-mars/";
 
 staticCacheLinks = [
     `${startPath}`,
