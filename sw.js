@@ -17,6 +17,7 @@ staticCacheLinks = [
     `${startPath}css/style.css`,
     `${startPath}img/cross64.png`,
     `${startPath}img/loading.svg`,
+    `${startPath}manifest/manifest.webmanifest`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
 

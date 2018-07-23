@@ -5,7 +5,7 @@ const viewPortWidth = Math.max(document.documentElement.clientWidth, window.inne
 let resizeImg = true;
 
 // check if resize API is available. 1000ms is enough
-checkResizeApi = (url, options) => {
+checkResizeApi = (url, options = {}) => {
     return fetchTimeout(url, options);
 }
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', event => {
     if (location.pathname.startsWith('/curiosity')) document.getElementById('home-page-link').href = '/curiosity-mars';
     if (location.pathname.startsWith('/curiosity')) document.getElementById('manifest-link').href = '/curiosity-mars/manifest/manifest.webmanifest';
     
-    checkResizeApi(resizeUrl, {method: 'head', mode: 'cors'})
+    checkResizeApi(resizeUrl)
     .catch(error => {
         // resize API timeout error!
         resizeImg = false;
