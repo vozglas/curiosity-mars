@@ -1,4 +1,4 @@
-const cacheVersion = "6";
+const cacheVersion = "7";
 
 
 const staticCache = `static-cache-${cacheVersion}`;
@@ -18,7 +18,6 @@ staticCacheLinks = [
     `${startPath}img/cross64.png`,
     `${startPath}img/loading.svg`,
     `${startPath}manifest.webmanifest`,
-    `${startPath}manifest_github.webmanifest`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
 
