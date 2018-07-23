@@ -1,4 +1,4 @@
-const cacheVersion = "7";
+const cacheVersion = "1";
 
 
 const staticCache = `static-cache-${cacheVersion}`;
@@ -17,6 +17,15 @@ staticCacheLinks = [
     `${startPath}css/style.css`,
     `${startPath}img/cross64.png`,
     `${startPath}img/loading.svg`,
+    `${startPath}img/touch/mc144.png`,
+    `${startPath}img/touch/mc168.png`,
+    `${startPath}img/touch/mc192.png`,
+    `${startPath}img/touch/mc256.png`,
+    `${startPath}img/touch/mc384.png`,
+    `${startPath}img/touch/mc48.png`,
+    `${startPath}img/touch/mc512.png`,
+    `${startPath}img/touch/mc72.png`,
+    `${startPath}img/touch/mc96.png`,
     `${startPath}manifest.webmanifest`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
