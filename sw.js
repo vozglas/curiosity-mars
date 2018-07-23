@@ -6,7 +6,7 @@ const imageCache = `image-cache-${cacheVersion}`;
 const allCaches = [staticCache, imageCache];
 
 let startPath = "/";
-if (location.pathname.startsWith('/curiosity')) startPath = "/curiosity-mars/";
+if (location.pathname.startsWith('/curiosity')) startPath = "/curiosity-mars/"; 
 
 staticCacheLinks = [
     `${startPath}`,
@@ -17,8 +17,8 @@ staticCacheLinks = [
     `${startPath}css/style.css`,
     `${startPath}img/cross64.png`,
     `${startPath}img/loading.svg`,
-    `${startPath}manifest/manifest.webmanifest`,
-    `${startPath}manifest/manifest_github.webmanifest`,
+    `${startPath}manifest.webmanifest`,
+    `${startPath}manifest_github.webmanifest`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
 
@@ -27,7 +27,7 @@ self.addEventListener('install', event => {
         caches.open(staticCache).then(cache => {
             return cache.addAll(staticCacheLinks);
         }).catch(error => {
-            console.log(error);
+            console.log(new Error(error));
         })
     )
 });

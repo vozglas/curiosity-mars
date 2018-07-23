@@ -6,8 +6,7 @@ let resizeImg = true;
 
 // fix for github web pages 
 if (location.pathname.startsWith('/curiosity')) document.getElementById('home-page-link').href = '/curiosity-mars';
-//if (location.pathname.startsWith('/curiosity')) document.getElementById('manifest-link').href = '/curiosity-mars/manifest_github.webmanifest';
-
+if (location.pathname.startsWith('/curiosity')) document.getElementById('manifest-link').href = '/curiosity-mars/manifest_github.webmanifest';
 // check if resize API is available. 1000ms is enough
 checkResizeApi = (url, options = {}) => {
     return fetchTimeout(url, options);
