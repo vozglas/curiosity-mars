@@ -393,7 +393,7 @@ function topFunction() {
 registerSW = () => {
     if (navigator.serviceWorker) {
         let swPath = "/sw.js";
-        if (location.pathname.startsWith('curiosity')) swPath = "/curiosity-mars/sw.js";
+        if (location.pathname.startsWith('/curiosity')) swPath = "/curiosity-mars/sw.js";
         navigator.serviceWorker.register(swPath).then(function(reg) {
             if (!navigator.serviceWorker.controller) {
                 return;
