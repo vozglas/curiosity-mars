@@ -34,7 +34,7 @@ makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
     
 
 document.addEventListener('DOMContentLoaded', event => {
-    checkResizeApi(resizeUrlUnsecure, {method: 'head'})
+    checkResizeApi(resizeUrl, {method: 'head'})
     .catch(error => {
         // resize API timeout error!
         resizeImg = false;
