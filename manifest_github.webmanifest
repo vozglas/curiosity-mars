@@ -2,7 +2,7 @@
     "name": "CURIOSITY ON MARS",
     "short_name": "Mars Photos",
     "lang" : "en-US",
-    "start_url": "./curiosity-mars",
+    "start_url": "./curiosity-mars/",
     "display": "standalone",
     "background_color": "#888",
     "theme_color" : "#888",
