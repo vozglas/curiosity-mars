@@ -34,6 +34,7 @@ makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
     
 
 document.addEventListener('DOMContentLoaded', event => {
+    if (location.pathname.startsWith('/curiosity')) document.getElementById('home-page-link').href = '/curiosity-mars';
     checkResizeApi(resizeUrl, {method: 'head'})
     .catch(error => {
         // resize API timeout error!
