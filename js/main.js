@@ -1,29 +1,59 @@
-const BASE_URL = `https://mars-photos.herokuapp.com/api/v1/`;
+const BASE_API_URL = `https://mars-photos.herokuapp.com/api/v1/`;
+const resizeUrlUnsecure = `http://rsz.io/`;
 const resizeUrl = `https://rsz.io/`;
 const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
+let resizeImg = true;
 
-makeUrl = (imgUrl, resize = true, width = `600`, height = `600`, quality = 75) => {
+// check if resize API is available. 1000ms is enough
+checkResizeApi = (url, options) => {
+    return fetchTimeout(url, options);
+}
+
+fetchTimeout = (url, options, timeout = 1000) => {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) => {
+            setTimeout(() => {
+                reject(`calling ${url} timeout error`)
+            }, timeout)
+        })
+    ]);
+}
+
+
+makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
+   
     imgUrl = imgUrl.replace('http://', '').replace('https://', '')
     if (resize) {
         return `${resizeUrl}${imgUrl}?width=${width}&height=${height}&scale=down&quality=${quality}`;
     } else {
+        // resize API is unavailable
         return `https://${imgUrl}`;
     }
 }
     
 
 document.addEventListener('DOMContentLoaded', event => {
-    const datePicker = document.getElementById('input-date-search');
-    datePicker.addEventListener('change', event => {
-        if (datePicker.value !== "") {
-            fillPhotosByEarthDate(datePicker.value);
-        } else {
-            fillLatestPhotos();
-        }
+    checkResizeApi(resizeUrlUnsecure, {method: 'head'})
+    .catch(error => {
+        // resize API timeout error!
+        resizeImg = false;
+        console.log(error);
     })
-    registerSW();
-    openIDB();  
-    fillLatestPhotos();
+    .then(response => {
+        const datePicker = document.getElementById('input-date-search');
+        datePicker.addEventListener('change', event => {
+            closeModal();
+            if (datePicker.value !== "") {
+                fillPhotosByEarthDate(datePicker.value);
+            } else {
+                fillLatestPhotos();
+            }
+        })
+        registerSW();
+        openIDB();  
+        fillLatestPhotos();
+    })
 });
 
 fillLatestPhotos = () => {
@@ -85,7 +115,7 @@ setPhotosCaption = (type = 'Latest Photos', date = '', count = 0) => {
 }
 
 fetchLatestPhotos = () => {
-    return fetch(`${BASE_URL}rovers/curiosity/latest_photos`).then(response => {
+    return fetch(`${BASE_API_URL}rovers/curiosity/latest_photos`).then(response => {
         return response.json();
     }).then(data => {
         return data.latest_photos;
@@ -95,7 +125,7 @@ fetchLatestPhotos = () => {
 }
 
 fetchPhotosByEarthDate = (date) => {
-    return fetch(`${BASE_URL}rovers/curiosity/photos?earth_date=${date}`).then(response => {
+    return fetch(`${BASE_API_URL}rovers/curiosity/photos?earth_date=${date}`).then(response => {
         return response.json();
     }).then(data => {
         return data.photos;
@@ -105,7 +135,7 @@ fetchPhotosByEarthDate = (date) => {
 }
 
 fetchRoverInfo = (name) => {
-    return fetch(`${BASE_URL}manifests/curiosity`).then(response => {
+    return fetch(`${BASE_API_URL}manifests/curiosity`).then(response => {
         return response.json();
     }).then(data => {
         console.log(data.photo_manifest);
@@ -125,6 +155,7 @@ setImgPlaceHolder = (imgData) => {
     let photoList = document.getElementById('photos-list');
     const li = document.createElement('li');
     li.setAttribute('id', imgData.id);
+    li.style.backgroundPosition = 'center';
     const imgWrap = document.createElement('div');
     imgWrap.className = 'lazy-img';
     imgWrap.setAttribute('data-src', imgData.img_src)
@@ -185,7 +216,6 @@ function onIntersection(entries) {
 
 
 loadImage = (image_src) => {
-    console.log(image_src);
     const pic = makePictureElem(image_src.dataset.src, image_src.dataset.alt, image_src.dataset.class, image_src.dataset.id);
     image_src.append(pic);
 }
@@ -197,7 +227,10 @@ let modal = null;
 let focusOnExit = null;
 
 showPhotoDetails = (data, lastFocusedElement) => {
-    //const picUrl = data.img_src.replace('http://', '');
+    // hide search-results
+    document.getElementById("search-results").style.display = "none";
+    
+
     focusOnExit = lastFocusedElement;
     modal = document.getElementById('photo-detail-back');
     modal.style.display = "block";
@@ -205,6 +238,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     const detailPhotoWrapper = document.createElement("div");
     const picDescr = `The photo was made by ${data.rover.name} with ${data.camera.full_name} on ${data.earth_date} (sol ${data.sol})`;
     const modalContentImg = makePictureElem(data.img_src, picDescr);
+    modalContentImg.addEventListener('click', closeModal);
 
     detailPhotoWrapper.appendChild(modalContentImg);
 
@@ -222,20 +256,15 @@ showPhotoDetails = (data, lastFocusedElement) => {
    
     const btnCloseModal = document.createElement('button');
     btnCloseModal.setAttribute('id', 'btn-close-modal');
+    btnCloseModal.innerHTML = "× Close"
     modalContentElement.appendChild(btnCloseModal);
     btnCloseModal.addEventListener("click", closeModal);
 
 
     modalContentElement.style.backgroundImage = "url('/img/loading.svg')";
     modalContentElement.style.backgroundRepeat = "no-repeat";
-    modalContentElement.style.backgroundPosition = "center center";
-    btnCloseModal.style.display = "none";
-
-
-/*     imgSource.addEventListener('load', () => {
-        modalContentElement.style.backgroundImage = "none";
-        btnCloseModal.style.display = "block";
-    }); */
+    modalContentElement.style.backgroundPosition = "center";
+    
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = event => {
@@ -258,26 +287,29 @@ showPhotoDetails = (data, lastFocusedElement) => {
     lastTabStop = focusableElements[focusableElements.length - 1];
     
     // focusing on first stop
-    lastTabStop.focus();
+    firstTabStop.focus();
+
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 
 }
 
 makePictureElem = (picUrl, picDescr, className = '', id = '') => {
     const picElem = document.createElement("picture");
     let picSource600 = document.createElement("source");
-    picSource600.setAttribute('srcset',  makeUrl(picUrl, true, `600`, `600`,30));
+    picSource600.setAttribute('srcset',  makeUrl(picUrl, resizeImg, `600`, `600`,30));
     picSource600.setAttribute('media', `(max-width: 600px)`);
     picSource600.setAttribute('type', `image/jpeg`);
     picElem.appendChild(picSource600);
     
     let picSource800 = document.createElement("source");
-    picSource800.setAttribute('srcset', makeUrl(picUrl, true, `800`, `800`,50)) ;
+    picSource800.setAttribute('srcset', makeUrl(picUrl, resizeImg, `800`, `800`,50)) ;
     picSource800.setAttribute('media', `(min-width: 601px) and (max-width: 800px)`);
     picSource800.setAttribute('type', `image/jpeg`);
     picElem.appendChild(picSource800);
     
     let picSourceBig = document.createElement("source");
-    picSourceBig.setAttribute('srcset',  makeUrl(picUrl, true, id ? `400` :`1000`, id ? `400` :`1000`));
+    picSourceBig.setAttribute('srcset',  makeUrl(picUrl, resizeImg, id ? `400` :`1000`, id ? `400` :`1000`));
     picSourceBig.setAttribute('media', `(min-width: 801px)`);
     picSourceBig.setAttribute('type', `image/jpeg`);
     picElem.appendChild(picSourceBig);
@@ -288,14 +320,12 @@ makePictureElem = (picUrl, picDescr, className = '', id = '') => {
     imgSource.className = className;
     picElem.appendChild(imgSource);
 
-
     imgSource.addEventListener('load', () => {
+        imgSource.style.opacity = 1;
+        document.getElementById('photo-detail').style.backgroundImage = "none";
         if (id) {
-            let li = document.getElementById(id)
-            li.style.background = "none";
-            imgSource.style.opacity = 1;
+            if (document.getElementById(id)) document.getElementById(id).style.backgroundImage = "none";
         }
-        picElem.style.backgroundImage = "none";
     });
 
     return picElem;
@@ -321,9 +351,14 @@ trapTabKey = (e) => {
 }
 
 closeModal = () => {
+    const modal = document.getElementById('photo-detail-back');
     modal.style.display = "none";
     document.getElementById("photo-detail").innerHTML = "";
-    focusOnExit.focus();
+    
+    // show search-results
+    document.getElementById("search-results").style.display = "block";
+    if (focusOnExit) focusOnExit.focus();
+
 }
 
 
@@ -357,7 +392,9 @@ function topFunction() {
 // Register SW
 registerSW = () => {
     if (navigator.serviceWorker) {
-        navigator.serviceWorker.register(`/sw.js`).then(function(reg) {
+        let swPath = "/sw.js";
+        if (location.pathname.startsWith('curiosity')) swPath = "/curiosity-mars/sw.js";
+        navigator.serviceWorker.register(swPath).then(function(reg) {
             if (!navigator.serviceWorker.controller) {
                 return;
             }

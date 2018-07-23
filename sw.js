@@ -1,18 +1,22 @@
-const cacheVersion = "2";
+const cacheVersion = "123";
+
 
 const staticCache = `static-cache-${cacheVersion}`;
 const imageCache = `image-cache-${cacheVersion}`;
 const allCaches = [staticCache, imageCache];
 
+let startPath = "/";
+if (location.pathname.startsWith('curiosity')) startPath = "/curiosity-mars/";
+
 staticCacheLinks = [
-    `/`,
-    `index.html`,
-    `js/intersection-observer.js`,
-    `js/main.js`,
-    `js/idb.js`,
-    `css/style.css`,
-    `img/cross64.png`,
-    `img/loading.svg`,
+    `${startPath}`,
+    `${startPath}index.html`,
+    `${startPath}js/intersection-observer.js`,
+    `${startPath}js/main.js`,
+    `${startPath}js/idb.js`,
+    `${startPath}css/style.css`,
+    `${startPath}img/cross64.png`,
+    `${startPath}img/loading.svg`,
     "https://fonts.googleapis.com/css?family=Roboto"
 ]
 
