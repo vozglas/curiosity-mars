@@ -251,6 +251,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     detailDescrWrapper.innerHTML = picDescr;
     
     const fullImgDescr = document.createElement('p');
+    fullImgDescr.className = "full-img-descr";
     fullImgDescr.innerHTML = `<a href="${data.img_src}" class="new-tab-link" target="_blank">open photo in new tab</a>`;
     modalContentElement.appendChild(detailPhotoWrapper);
     modalContentElement.appendChild(detailDescrWrapper);
@@ -259,12 +260,14 @@ showPhotoDetails = (data, lastFocusedElement) => {
    
     const btnCloseModal = document.createElement('button');
     btnCloseModal.setAttribute('id', 'btn-close-modal');
-    btnCloseModal.innerHTML = "× Close"
-    modalContentElement.appendChild(btnCloseModal);
+    btnCloseModal.innerHTML = "Close ×"
     btnCloseModal.addEventListener("click", closeModal);
+    //modalContentElement.appendChild(btnCloseModal);
+    fullImgDescr.appendChild(btnCloseModal);
+   
 
 
-    modalContentElement.style.backgroundImage = "url('/img/dust.svg')"; // "url('/img/loading.svg')";
+    modalContentElement.style.backgroundImage = "url('/img/dust.svg')";
     modalContentElement.style.backgroundRepeat = "no-repeat";
     modalContentElement.style.backgroundPosition = "center";
     

@@ -158,6 +158,11 @@ img {
     color: #F0E68C;
 }
 
+.full-img-descr {
+    display: flex;
+    justify-content: space-around;
+}
+
 #btn-close-modal {
     outline: none;
     color: #fefefe;
@@ -167,13 +172,14 @@ img {
     border: 0;
     background-color: #555;
     padding: 5px;
-    border: 1px solid #aaa;
+    /* border: 1px solid #aaa;
     min-width: 50px;
-    min-height: 50px;
+    min-height: 50px; */
 }
 
 #btn-close-modal:hover, #btn-close-modal:focus {
-    border: 2px solid #fff;
+    background-color: #e9e9e9;
+    color: black;
 }
 
 
