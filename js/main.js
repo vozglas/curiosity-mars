@@ -264,7 +264,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     btnCloseModal.addEventListener("click", closeModal);
 
 
-    modalContentElement.style.backgroundImage = "url('/img/loading.svg')";
+    modalContentElement.style.backgroundImage = "url('/img/dust.svg')"; // "url('/img/loading.svg')";
     modalContentElement.style.backgroundRepeat = "no-repeat";
     modalContentElement.style.backgroundPosition = "center";
     

@@ -17,6 +17,7 @@ staticCacheLinks = [
     `${startPath}css/style.css`,
     `${startPath}img/cross64.png`,
     `${startPath}img/loading.svg`,
+    `${startPath}img/dust.svg`,
     `${startPath}img/touch/mc144.png`,
     `${startPath}img/touch/mc168.png`,
     `${startPath}img/touch/mc192.png`,
