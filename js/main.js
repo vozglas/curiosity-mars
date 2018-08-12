@@ -8,7 +8,7 @@ let resizeImg = true;
 if (location.pathname.startsWith('/curiosity')) document.getElementById('home-page-link').href = '/curiosity-mars';
 //if (location.pathname.startsWith('/curiosity')) document.getElementById('manifest-link').href = '/curiosity-mars/manifest_github.webmanifest';
 // check if resize API is available. 1000ms is enough
-checkResizeApi = (url, options = {}) => {
+checkResizeApi = (url, options = {/* mode: 'no-cors' */}) => {
     return fetchTimeout(url, options);
 }
 
@@ -253,18 +253,22 @@ showPhotoDetails = (data, lastFocusedElement) => {
     const fullImgDescr = document.createElement('p');
     fullImgDescr.className = "full-img-descr";
     fullImgDescr.innerHTML = `<a href="${data.img_src}" class="new-tab-link" target="_blank">open photo in new tab</a>`;
-    modalContentElement.appendChild(detailPhotoWrapper);
-    modalContentElement.appendChild(detailDescrWrapper);
-    modalContentElement.appendChild(fullImgDescr);
 
    
+    const btnCloseWrapper = document.createElement('div');    
+    btnCloseWrapper.style.textAlign = 'right';
     const btnCloseModal = document.createElement('button');
     btnCloseModal.setAttribute('id', 'btn-close-modal');
     btnCloseModal.innerHTML = "Close ×"
     btnCloseModal.addEventListener("click", closeModal);
-    //modalContentElement.appendChild(btnCloseModal);
-    fullImgDescr.appendChild(btnCloseModal);
-   
+    btnCloseWrapper.appendChild(btnCloseModal);
+
+    
+    modalContentElement.appendChild(btnCloseWrapper);
+    modalContentElement.appendChild(detailPhotoWrapper);
+    modalContentElement.appendChild(detailDescrWrapper);
+    modalContentElement.appendChild(fullImgDescr);
+
 
 
     modalContentElement.style.backgroundImage = "url('/img/dust.svg')";
@@ -293,7 +297,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     lastTabStop = focusableElements[focusableElements.length - 1];
     
     // focusing on first stop
-    firstTabStop.focus();
+    //firstTabStop.focus();
 
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
