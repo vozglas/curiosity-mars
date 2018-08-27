@@ -2,6 +2,10 @@ const BASE_API_URL = `https://mars-photos.herokuapp.com/api/v1/`;
 const resizeUrl = `https://axwqdn83n.cloudimg.io/`; //`https://rsz.io/`;
 const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
 let resizeImg = true;
+let startPath = "/";
+
+//github fix
+if (location.pathname.startsWith('/curiosity')) startPath = "/curiosity-mars/"; 
 
 // fix for github web pages 
 if (location.pathname.startsWith('/curiosity')) document.getElementById('home-page-link').href = '/curiosity-mars';
@@ -38,6 +42,9 @@ makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
     
 
 document.addEventListener('DOMContentLoaded', event => {
+    //github fix
+    if (startPath !== "/" ) document.getElementById("offline-img").src = `${startPath}/img/offline.jpg`; 
+
     checkNetworkStatus();
     checkResizeApi(resizeUrl)
     .catch(error => {
