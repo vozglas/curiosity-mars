@@ -112,6 +112,7 @@ img {
 
 .filter label {
     font-size: 20px;
+    padding-right: 10px;
 }
 
 #photos-list {
