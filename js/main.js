@@ -38,6 +38,7 @@ makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
     
 
 document.addEventListener('DOMContentLoaded', event => {
+    checkNetworkStatus();
     checkResizeApi(resizeUrl)
     .catch(error => {
         // resize API timeout error!
@@ -59,6 +60,16 @@ document.addEventListener('DOMContentLoaded', event => {
         fillLatestPhotos();
     })
 });
+
+checkNetworkStatus = () => {
+    if (!navigator.onLine) {
+        document.getElementById("offline").style.display = "block";
+        document.getElementById("search-results").style.display = "none";
+    } else {
+        document.getElementById("offline").style.display = "none";
+        document.getElementById("search-results").style.display = "block";
+    }
+}
 
 fillLatestPhotos = () => {
     cleanMainPage();
