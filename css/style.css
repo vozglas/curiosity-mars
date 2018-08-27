@@ -198,6 +198,7 @@ img {
 .new-tab-link {
     font-size: .9em;
     color: #F0E68C;
+    letter-spacing: 1px;
 }
 
 .full-img-descr {

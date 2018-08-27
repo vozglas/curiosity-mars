@@ -271,7 +271,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
     
     const fullImgDescr = document.createElement('p');
     fullImgDescr.className = "full-img-descr";
-    fullImgDescr.innerHTML = `<a href="${data.img_src}" class="new-tab-link" target="_blank">open photo in new tab</a>`;
+    fullImgDescr.innerHTML = `<a href="${data.img_src}" class="new-tab-link" target="_blank">open original (<b>BIG SIZE</b>) photo in new tab</a>`;
 
    
     const btnCloseWrapper = document.createElement('div');    
