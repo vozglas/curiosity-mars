@@ -44,7 +44,7 @@ makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
 document.addEventListener('DOMContentLoaded', event => {
     //github fix
     document.getElementById("offline-img").src = `${startPath}img/offline.jpg`
-
+    document.getElementById("github-icon").src = `${startPath}img/github.png`
     checkNetworkStatus();
     checkResizeApi(resizeUrl)
     .catch(error => {
