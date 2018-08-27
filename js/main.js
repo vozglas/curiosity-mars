@@ -1,6 +1,5 @@
 const BASE_API_URL = `https://mars-photos.herokuapp.com/api/v1/`;
-const resizeUrlUnsecure = `http://rsz.io/`;
-const resizeUrl = `https://rsz.io/`;
+const resizeUrl = `https://axwqdn83n.cloudimg.io/`; //`https://rsz.io/`;
 const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
 let resizeImg = true;
 
@@ -9,7 +8,8 @@ if (location.pathname.startsWith('/curiosity')) document.getElementById('home-pa
 //if (location.pathname.startsWith('/curiosity')) document.getElementById('manifest-link').href = '/curiosity-mars/manifest_github.webmanifest';
 // check if resize API is available. 1000ms is enough
 checkResizeApi = (url, options = {/* mode: 'no-cors' */}) => {
-    return fetchTimeout(url, options);
+    return Promise.resolve('ok');
+    //return fetchTimeout(url, options);
 }
 
 fetchTimeout = (url, options, timeout = 1000) => {
@@ -28,7 +28,8 @@ makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
    
     imgUrl = imgUrl.replace('http://', '').replace('https://', '')
     if (resize) {
-        return `${resizeUrl}${imgUrl}?width=${width}&height=${height}&scale=down&quality=${quality}`;
+        //return `${resizeUrl}${imgUrl}?width=${width}&height=${height}&scale=down&quality=${quality}`;
+        return `${resizeUrl}width/${width}/n/${imgUrl}`;
     } else {
         // resize API is unavailable
         return `https://${imgUrl}`;
