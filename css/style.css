@@ -172,11 +172,12 @@ img {
 
 #photo-detail-back{
     display: none;
-    height: 100vh;  
+    /* height: 100vh;   */
     overflow: auto; 
     background-color: #000;
     will-change: transform; /* make a new layer*/
     text-align: center;
+    width: 100vw;
 }
 
 #photo-detail {
