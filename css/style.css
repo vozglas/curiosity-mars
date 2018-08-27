@@ -74,6 +74,9 @@ header h1 a:focus {
     display: flex;
 }
 
+#search-results {
+    width: 100%;
+}
 
 footer {
     flex: 0 0 50px;
