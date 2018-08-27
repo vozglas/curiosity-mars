@@ -10,30 +10,33 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1><a href="/" aria-label="Home page" id="home-page-link">Curiosity Mars Photos</a></h1>
-        <div class="filter">
-            <label for="input-date-search">Select date</label>
-            <input type="date" id="input-date-search">
-        </div>
-    </header>
-    <main id="maincontent" role="main">
-        <section id="search-results">
-            <h2 id="photos-caption"></h2>
-            <div id="total-photos"></div>
-            <ul id="photos-list"></ul>
-        </section>
-        
-        <section id="photo-detail-back">
-            <div id="photo-detail"></div>
-        </section>
-        <section id="offline">
-            <img id="offline-img">
-        </section>
-    </main>
-    <footer>
-        
-    </footer>
+    <div class=wrapper>
+        <header>
+            <h1><a href="/" aria-label="Home page" id="home-page-link">Curiosity Mars Photos</a></h1>
+            <div class="filter">
+                <label for="input-date-search">Select date</label>
+                <input type="date" id="input-date-search">
+            </div>
+        </header>
+        <main id="maincontent" role="main">
+            <section id="search-results">
+                <h2 id="photos-caption"></h2>
+                <div id="total-photos"></div>
+                <ul id="photos-list"></ul>
+            </section>
+            
+            <section id="photo-detail-back">
+                <div id="photo-detail"></div>
+            </section>
+            <section id="offline">
+                <img id="offline-img">
+            </section>
+        </main>
+        <footer>
+            
+        </footer>       
+    </div>
+
     <button onclick="topFunction()" id="btnScrollUp" title="Go to top">⇧ Top ⇧</button>
     <script src="js/intersection-observer.js"></script>
     <script src="js/main.js"></script>
