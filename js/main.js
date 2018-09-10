@@ -290,7 +290,7 @@ showPhotoDetails = (data, lastFocusedElement) => {
 
 
 
-    modalContentElement.style.backgroundImage = "url('/img/dust.svg')";
+    modalContentElement.style.backgroundImage = `url('${startPath}img/dust.svg')`;
     modalContentElement.style.backgroundRepeat = "no-repeat";
     modalContentElement.style.backgroundPosition = "center";
     
