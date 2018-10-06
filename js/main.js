@@ -1,5 +1,6 @@
 const BASE_API_URL = `https://mars-photos.herokuapp.com/api/v1/`;
-const resizeUrl = `https://axwqdn83n.cloudimg.io/`; //`https://rsz.io/`;
+const imgToken = `demo`; //axwqdn83n
+const resizeUrl = `https://${imgToken}.cloudimg.io/`; //`https://rsz.io/`;
 const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
 let resizeImg = true;
 let startPath = "/";
