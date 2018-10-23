@@ -101,7 +101,7 @@ fillPhotosByEarthDate = (date) => {
             setPhotosCaption(`Photos taken on`, date, data.length);
             updatePhotoList(data);
         } else {
-            setPhotosCaption(`Nothing found`, `( Date: ${date} )`, 0);
+            setPhotosCaption(`Nothing found`, `<br>( Date: ${date} )`, 0);
         }
     });
 }
@@ -131,7 +131,7 @@ setPhotosCaption = (type = 'Latest Photos', date = '', count = 0) => {
     if (date === '') {
         caption.textContent = type
     } else {
-        caption.textContent = `${type} ${date}`
+        caption.innerHTML = `${type} ${date}`
     }
 
     document.getElementById('total-photos').innerHTML = amount;

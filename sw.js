@@ -1,4 +1,4 @@
-const cacheVersion = "3a";
+const cacheVersion = "3c";
 
 
 const staticCache = `static-cache-${cacheVersion}`;
