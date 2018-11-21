@@ -82,14 +82,20 @@ checkNetworkStatus = () => {
 fillLatestPhotos = () => {
     cleanMainPage();
     setPhotosCaption(`Loading latest photos`, '...');
-    fetchLatestPhotos().then(data => {
-        if (data.length > 0) {
+
+    fetchLatestPhotos().then(response => {
+        return response.json();
+    }).then(photos => {
+        if (photos.latest_photos.length > 0) {
+            const data = photos.latest_photos;
             document.getElementById('input-date-search').value = data[0].earth_date;
             setPhotosCaption(`Photos taken on`, data[0].earth_date, data.length);
             updatePhotoList(data);
         } else {
             setPhotosCaption(`Nothing found`, ``, 0);
-        }        
+        }   
+    }).catch(error => {
+        console.log(`Error: ${error}`);
     });
 }
 
@@ -138,12 +144,8 @@ setPhotosCaption = (type = 'Latest Photos', date = '', count = 0) => {
 }
 
 fetchLatestPhotos = () => {
-    return fetch(`${BASE_API_URL}rovers/curiosity/latest_photos`).then(response => {
-        return response.json();
-    }).then(data => {
-        return data.latest_photos;
-    }).catch(error => {
-        console.log(error);
+    return fetch(`${BASE_API_URL}rovers/curiosity/latest_photos`).catch(error => {
+        console.log(`Error: ${error}`);
     })
 }
 
