@@ -1,6 +1,7 @@
 const BASE_API_URL = `https://mars-photos.herokuapp.com/api/v1/`;
-const imgToken = `demo`; //axwqdn83n
-const resizeUrl = `https://${imgToken}.cloudimg.io/`; //`https://rsz.io/`;
+const imgToken = `demo`;
+//const resizeUrl = `https://${imgToken}.cloudimg.io/`;
+const resizeUrl = `https://${imgToken}.cloudimg.io/`;
 const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
 let resizeImg = true;
 let startPath = "/";
@@ -33,8 +34,10 @@ makeUrl = (imgUrl, resize, width = `600`, height = `600`, quality = 75) => {
    
     imgUrl = imgUrl.replace('http://', '').replace('https://', '')
     if (resize) {
-        //return `${resizeUrl}${imgUrl}?width=${width}&height=${height}&scale=down&quality=${quality}`;
-        return `${resizeUrl}width/${width}/q${quality}/${imgUrl}`;
+        //return `${resizeUrl}width/${width}/q${quality}/${imgUrl}`;
+        //return `${resizeUrl}width/${width}/q${quality}/${imgUrl}`;
+        return `${resizeUrl}crop/${width}x${height}/q80//${imgUrl}`; 
+        //crop/400x90/q80/http://sample.li/flat1.jpg 1x
     } else {
         // resize API is unavailable
         return `https://${imgUrl}`;
